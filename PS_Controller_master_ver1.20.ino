@@ -63,15 +63,6 @@ bool doorOpenFlag = false;            // ドア開フラグ
 bool doorCloseFlag = false;           // ドア閉フラグ
 bool departureMusicFlag = false;      // 発車メロディフラグ
 
-/*
-// ---- 音に割り当てるパラメータ ----
-const int horn = 30;                  // 警笛パラメータ
-const int hornRelease = 31;           // 警笛終了パラメータ
-const int buzzer = 32;                // ブザー音パラメータ
-const int doorOpen = 33;              // ドア開パラメータ
-const int doorClose = 34;             // ドア閉パラメータ
-*/
-
 int k;                                // 反復変数
 int se[BUF];                          // 音再生要求配列
 int cnt = 0;                          // 加減速度
@@ -107,15 +98,7 @@ void setup() {
 void loop() {
     Position pos;                                              // ハンドルポジション
     pos = button_down();                                       // ハンドルポジションの取得
-    // Serial.print(pos);                                         // ハンドルポジションの表示
-    // Serial.print(" ");                                         // 空白
 
-    //speed = return_speedVal( pos, speed );                     // ハンドル位置からスピードの増減を計算
-    // Serial.println(speed);                                     // スピードの出力
-
-    // pwm出力
-    // analogWrite( PWMOUT, speed );
-    // digitalWrite( PWMIN, LOW );
     if (cnt == 2) {
         speed = return_speedVal( pos, speed );                // ハンドル位置からスピードの増減を計算
         analogWrite( PWMOUT, speed );                         // PWM出力
@@ -450,19 +433,6 @@ double return_speedVal( Position pos, double speed )
             speed -= 10.0;
             break;
     }
-
-    /*
-    // ---- マスコン操作音の再生判定 ----
-    if (pos != tmpPos) {                             // マスコンの位置が変わった
-        if (se[5] != PLAY) {
-            se[5] = PLAY;                            // マスコン操作音再生   
-        }
-    } else if (pos == tmpPos) {                      // マスコンの位置が変わらない
-        se[5] = STOP;                                // マスコン操作音を再生しない
-    }
-    */
-
-    tmpPos = pos;                                    // 比較用に取り込む
 
     speed = constrain( speed, 0.0, 128.0 );          // pwm出力は0-255の間なのでconstrainで範囲を制限する
     return speed;                                    // スピードの返却
